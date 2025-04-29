@@ -12,26 +12,6 @@ This project automates the extraction of key financial data-specifically, **reve
 - **Industry classification:** ...
 - **Clean, structured output:** ...
 
-## Directory Structure
-STATISTA_TASK/
-│
-├── data/
-│   ├── CaseStudy_Sourcing_sample-1.xlsx  # Provided Excel template
-│  
-│   
-│
-├── src/
-│   ├── config.py                 # API keys and constants
-│   ├── data_fetcher.py           # Fetches S&P 500 list with GICS sector
-│   ├── filing_fetcher.py         # Gets latest 10-K filings metadata
-│   ├── xbrl_extractor.py         # Extracts revenue from filings via API
-│   ├── data_cleaner.py           # Cleans and standardizes data
-│   ├── exporter.py               # Exports DataFrame to Excel
-│   └── main.py                   # Main pipeline script
-│
-├── requirements.txt              # Python dependencies
-├── README.md                     # This file
-└── .gitignore                    # Standard Python ignores
 
 ## How It Works
 
@@ -45,3 +25,12 @@ STATISTA_TASK/
     - Each company’s GICS sector is included for industry-level analysis.
 5. **Clean and Export**
     - Cleans the collected data and exports it to Excel for easy review and downstream use.
+
+
+## Note
+
+1. **Note on API Limits**
+    - Due to the sec-api.io free tier rate limits, I was able to extract and process data for only 15 companies in this project run. For larger-scale or more frequent data extraction, we have to consider upgrading to a paid plan with higher request quotas and additional features.
+    - References:
+        - The free tier of sec-api.io has request and data volume limits.
+        - The SEC’s own EDGAR system also enforces rate limits on automated requests.
