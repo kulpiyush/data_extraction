@@ -1,9 +1,6 @@
-# src/main.py
-
 from src.data_fetcher import get_sp500_companies
 from src.filing_fetcher import get_latest_10k_filings
-from src.xbrl_extractor import extract_revenue_from_xbrl
-from src.config import SEC_API_KEY
+from src.sec_api import get_all_revenue_facts_from_sec  # <-- Use this function!
 from src.data_cleaner import clean_data
 from src.exporter import export_to_excel
 import pandas as pd
@@ -14,16 +11,32 @@ def main():
     results = []
     for idx, row in companies_df.iterrows():
         ticker = row['ticker']
+        cik = row['cik']
         print(f"Processing {ticker} ({idx+1}/{len(companies_df)})...")
-        filings = get_latest_10k_filings(ticker)
+
+        # 1. Fetch all revenue facts for this company (once per company)
+        all_revenue_facts = get_all_revenue_facts_from_sec(cik)
+
+        # 2. Fetch filings for this company
+        filings = get_latest_10k_filings(ticker, cik=cik)
         for filing in filings:
             year = filing.get('periodOfReport', '')[:4]
-            company_name = filing.get('companyName', '')
-            industry = row['gics_sector']           # Use from S&P 500 list
+            if not year:
+                # Fallback: try filingDate if periodOfReport is missing
+                year = filing.get('filingDate', '')[:4]
+            company_name = row['company_name']
+            industry = row['gics_sector']
             country = filing.get('stateOfIncorporation', 'USA')
-            filing_url = filing['linkToFilingDetails']
 
-            revenue, revenue_unit = extract_revenue_from_xbrl(filing_url, SEC_API_KEY)
+            # 3. Find the revenue fact for this year
+            revenue = None
+            revenue_unit = None
+            for fact in all_revenue_facts:
+                if fact['end'][:4] == year:
+                    revenue = fact['value']
+                    revenue_unit = fact['currency']
+                    break
+
             if revenue is not None:
                 results.append({
                     "timevalue": year,
@@ -36,7 +49,7 @@ def main():
             else:
                 print(f"Revenue not found for {ticker} {year}.")
         time.sleep(0.5)
-        if idx >= 15:  # For testing, limit to 100 companies
+        if idx >= 500:  # For testing, limit to 101 companies
             break
 
     final_df = clean_data(pd.DataFrame(results))
