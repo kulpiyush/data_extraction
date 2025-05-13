@@ -35,4 +35,20 @@ This project automates the extraction of key financial data-specifically, revenu
 2. **References:**
     - SEC EDGAR Submissions API
     - SEC XBRL Company Concept API
-    
+''''
+├── .gitignore
+├── data
+│   └── CaseStudy_Sourcing_sample-1.xlsx
+├── main.py
+├── README.md
+├── requirements.txt
+└── src
+    ├── __init__.py
+    ├── __pycache__
+    ├── data_cleaner.py
+    ├── data_fetcher.py
+    ├── exporter.py
+    ├── filing_fetcher.py
+    ├── sec_api.py
+    └── xbrl_extractor.py
+''''
