@@ -16,7 +16,7 @@ def get_latest_10k_filings(ticker, cik=None, count=5):
         raise ValueError("CIK must be provided for SEC API access.")
 
     headers = {
-        'User-Agent': 'Statista Case Study Extractor statista-team@example.com',  # Use your info!
+        'User-Agent': 'Statista Case Study Extractor kulpiyush15@gmail.com',  # Use info!
         'Accept-Encoding': 'gzip, deflate',
     }
     url = f"https://data.sec.gov/submissions/CIK{cik}.json"
