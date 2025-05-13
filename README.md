@@ -36,6 +36,7 @@ This project automates the extraction of key financial data-specifically, revenu
     - SEC EDGAR Submissions API
     - SEC XBRL Company Concept API
 
+3. **Directory Structure:**
 ````
 ├── .gitignore
 ├── data
