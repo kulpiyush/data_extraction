@@ -2,7 +2,7 @@ import requests
 
 def get_all_revenue_facts_from_sec(cik):
     headers = {
-        'User-Agent': 'Statista Case Study Extractor statista-team@example.com',
+        'User-Agent': 'Statista Case Study Extractor kulpiyush15@gmail.com',
         'Accept-Encoding': 'gzip, deflate',
     }
     url = f"https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/Revenues.json"
