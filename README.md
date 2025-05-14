@@ -54,3 +54,4 @@ This project automates the extraction of key financial data-specifically, revenu
     ├── sec_api.py
     └── xbrl_extractor.py
 ````
+
