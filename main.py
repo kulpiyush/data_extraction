@@ -6,7 +6,39 @@ from src.exporter import export_to_excel
 import pandas as pd
 import time
 
+"""
+Main module for SEC financial data pipeline
+
+This script orchestrates the collection, processing, and export of S&P 500 company financial data:
+1. Retrieves S&P 500 constituent list
+2. Fetches SEC revenue facts and 10-K filings for each company
+3. Matches annual revenue data to filing years
+4. Cleans and structures the data
+5. Exports results to Excel format
+"""
+
 def main():
+    """
+    Execute the SEC financial data collection pipeline
+    
+    Workflow:
+    1. Fetch S&P 500 company list with CIK numbers
+    2. For each company:
+       a. Retrieve all available revenue facts from SEC API
+       b. Fetch latest 10-K filings
+       c. Match annual revenue to filing years
+    3. Clean and validate collected data
+    4. Export structured data to Excel spreadsheet
+    
+    Includes:
+    - 0.5 second delay between company requests for API compliance
+    - Error handling for missing revenue data
+    - Automatic year extraction from filing dates
+    
+    Outputs:
+    Excel file with columns: [timevalue, companyname, industryclassification, 
+    geonameen, revenue, revenue_unit] saved to predefined desktop path
+    """
     companies_df = get_sp500_companies()
     results = []
     for idx, row in companies_df.iterrows():
